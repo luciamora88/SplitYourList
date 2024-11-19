@@ -15,7 +15,9 @@ struct GroupView: View {
                             Text(templategroup)
                         }
                         ForEach(groups, id: \.self) { group in
-                            Text(group)
+                            NavigationLink(destination: ListView(groupName: group)) {
+                                Text(group)
+                            }
                         }
                         .onDelete(perform: delete)
                         .onMove(perform: move)
@@ -78,15 +80,14 @@ struct GroupView: View {
     }
     
     func add() {
-        if !userInput.isEmpty
-        {
+        if !userInput.isEmpty {
             groups.append(userInput)
             userInput = ""
             showingInputField = false
         }
     }
     
-    func cancel(){
+    func cancel() {
         showingInputField = false
         userInput = ""
     }
@@ -96,4 +97,3 @@ struct GroupView: View {
     GroupView()
 }
 
-//NavigationLink(destination: ShoppingList(groupName: group))
