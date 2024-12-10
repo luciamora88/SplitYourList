@@ -14,7 +14,10 @@ struct GroupView: View {
                             Text(templategroup)
                         }
                         ForEach(groups, id: \.self) { group in
+                            NavigationLink(destination: ItemView())
+                            {
                                 Text(group)
+                            }
                         }
                         .onDelete(perform: delete)
                         .onMove(perform: move)

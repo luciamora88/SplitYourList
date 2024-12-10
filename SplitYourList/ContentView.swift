@@ -1,6 +1,17 @@
 import SwiftUI
+import FirebaseCore
+import FirebaseFirestore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_application: UIApplication,
+                     didFinishLaunchingWithOption launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
+}
 
 struct ContentView: View {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some View {
         NavigationView {
             VStack {
