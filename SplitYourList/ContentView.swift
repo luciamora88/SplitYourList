@@ -50,10 +50,10 @@ struct LoginView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Login")
-                .font(.largeTitle)
-                .bold()
-                .padding(.top)
+                Text("Login")
+                    .font(.largeTitle)
+                    .bold()
+                    .padding(.top)
 
             // Campo de texto para el correo electrónico
             VStack(alignment: .leading, spacing: 5) {
@@ -73,10 +73,11 @@ struct LoginView: View {
             }
 
             // Botón de login
-            Button(action: {
-                // Acción al presionar el botón
-                print("Login button pressed")
-            }) {
+//                Button(action: {
+//                    // Acción al presionar el botón
+//                    print("Login button pressed")
+//                }) {
+            NavigationLink(destination: GroupView()) {
                 Text("Login")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -85,7 +86,7 @@ struct LoginView: View {
                     .background(Color.blue)
                     .cornerRadius(8)
             }
-            .padding(.top, 20)
+                //}
 
             Spacer()
         }
@@ -145,19 +146,21 @@ struct RegisterView: View {
                 }
 
                 // Botón de registro
-                Button(action: {
-                    // Acción al presionar el botón
-                    print("Register button pressed")
-                }) {
-                    Text("Register")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(8)
-                }
-                .padding(.top, 20)
+                NavigationLink(destination: GroupView()) {
+//                    Button(action: {
+//                        // Acción al presionar el botón
+//                        print("Register button pressed")
+//                    }) {
+                        Text("Register")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 20)
+                //}
             }
             .padding()
         }

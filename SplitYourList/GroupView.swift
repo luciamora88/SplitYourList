@@ -1,5 +1,4 @@
 import SwiftUI
-
 struct GroupView: View {
     @State private var userInput = ""
     @State var templateGroup: [String] = ["Template: Create Group Below"]
@@ -15,16 +14,14 @@ struct GroupView: View {
                             Text(templategroup)
                         }
                         ForEach(groups, id: \.self) { group in
-                            NavigationLink(destination: ListView(groupName: group)) {
                                 Text(group)
-                            }
                         }
                         .onDelete(perform: delete)
                         .onMove(perform: move)
                     }
-                    
-                    Button("Add Group") {
-                        showingInputField.toggle()
+
+                    NavigationLink(destination: ListView(groupName: "", groups: $groups)) {
+                        Text("Add Group")
                     }
                     .padding()
                 }
@@ -96,4 +93,3 @@ struct GroupView: View {
 #Preview {
     GroupView()
 }
-

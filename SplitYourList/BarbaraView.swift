@@ -150,108 +150,108 @@ struct InsideGroupView_Previews: PreviewProvider {
         InsideGroupView()
     }
 }
-
-
-------------------------------------------------
-
-
-
-THIS JOIN VIEW DOES NOT WORK YEt xd
-
-
-
-
-struct JoinListView: View {
-    @Environment(\.dismiss) var dismiss
-    @Binding var lists: [String]
-    
-    @State private var url: String = ""
-    @State private var name: String = "John Doe"  // Nombre por defecto
-    @State private var listName: String? = nil
-    @State private var showWelcomeMessage = false
-
-    var body: some View {
-        NavigationView {
-            VStack {
-                TextField("URL", text: $url)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-
-                Button(action: {
-                    if !url.isEmpty {
-                        // Simular el proceso de obtener el nombre de la lista desde la URL
-                        listName = "Sample List"  // Aquí deberías hacer una solicitud a la URL
-                        showWelcomeMessage = true
-                    }
-                }) {
-                    Text("Save Changes")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .padding()
-
-                if showWelcomeMessage, let listName = listName {
-                    VStack {
-                        Text("Welcome \(name) to \(listName)!")
-                            .font(.title2)
-                            .bold()
-                            .padding(.top)
-
-                        HStack {
-                            Button(action: {
-                                dismiss()  // Volver a InsideGroupView sin agregar la lista
-                            }) {
-                                Text("Decline")
-                                    .font(.title2)
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color.red)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-
-                            Button(action: {
-                                if let listName = listName {
-                                    lists.append(listName)  // Añadir la lista
-                                }
-                                dismiss()  // Volver a InsideGroupView
-                            }) {
-                                Text("Accept")
-                                    .font(.title2)
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color.green)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                        }
-                        .padding(.top, 20)
-                    }
-                    .padding()
-                }
-                
-                // Volver a la vista anterior
-                Button(action: {
-                    dismiss()
-                }) {
-                    Text("Back")
-                        .foregroundColor(.blue)
-                }
-                .padding(.top, 10)
-            }
-            .navigationTitle("Join List")
-            .padding()
-        }
-    }
-}
-
-struct JoinListView_Previews: PreviewProvider {
-    static var previews: some View {
-        JoinListView(lists: .constant([]))
-    }
-}
+//
+//
+//------------------------------------------------
+//
+//
+//
+//THIS JOIN VIEW DOES NOT WORK YEt xd
+//
+//
+//
+//
+//struct JoinListView: View {
+//    @Environment(\.dismiss) var dismiss
+//    @Binding var lists: [String]
+//    
+//    @State private var url: String = ""
+//    @State private var name: String = "John Doe"  // Nombre por defecto
+//    @State private var listName: String? = nil
+//    @State private var showWelcomeMessage = false
+//
+//    var body: some View {
+//        NavigationView {
+//            VStack {
+//                TextField("URL", text: $url)
+//                    .padding()
+//                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                    .padding()
+//
+//                Button(action: {
+//                    if !url.isEmpty {
+//                        // Simular el proceso de obtener el nombre de la lista desde la URL
+//                        listName = "Sample List"  // Aquí deberías hacer una solicitud a la URL
+//                        showWelcomeMessage = true
+//                    }
+//                }) {
+//                    Text("Save Changes")
+//                        .font(.headline)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.blue)
+//                        .cornerRadius(10)
+//                }
+//                .padding()
+//
+//                if showWelcomeMessage, let listName = listName {
+//                    VStack {
+//                        Text("Welcome \(name) to \(listName)!")
+//                            .font(.title2)
+//                            .bold()
+//                            .padding(.top)
+//
+//                        HStack {
+//                            Button(action: {
+//                                dismiss()  // Volver a InsideGroupView sin agregar la lista
+//                            }) {
+//                                Text("Decline")
+//                                    .font(.title2)
+//                                    .padding()
+//                                    .frame(maxWidth: .infinity)
+//                                    .background(Color.red)
+//                                    .foregroundColor(.white)
+//                                    .cornerRadius(10)
+//                            }
+//
+//                            Button(action: {
+//                                if let listName = listName {
+//                                    lists.append(listName)  // Añadir la lista
+//                                }
+//                                dismiss()  // Volver a InsideGroupView
+//                            }) {
+//                                Text("Accept")
+//                                    .font(.title2)
+//                                    .padding()
+//                                    .frame(maxWidth: .infinity)
+//                                    .background(Color.green)
+//                                    .foregroundColor(.white)
+//                                    .cornerRadius(10)
+//                            }
+//                        }
+//                        .padding(.top, 20)
+//                    }
+//                    .padding()
+//                }
+//                
+//                // Volver a la vista anterior
+//                Button(action: {
+//                    dismiss()
+//                }) {
+//                    Text("Back")
+//                        .foregroundColor(.blue)
+//                }
+//                .padding(.top, 10)
+//            }
+//            .navigationTitle("Join List")
+//            .padding()
+//        }
+//    }
+//}
+//
+//struct JoinListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        JoinListView(lists: .constant([]))
+//    }
+//}
