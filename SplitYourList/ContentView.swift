@@ -2,7 +2,6 @@ import SwiftUI
 import FirebaseFirestore
 
 struct ContentView: View {
-    
     var body: some View {
         NavigationView {
             VStack {
@@ -13,10 +12,10 @@ struct ContentView: View {
                         .padding(.leading)
                     Spacer()
                 }
-               
-                // Espaciador que empuja la parte inferior hacia arriba, reduciendo la distancia entre el título y los botones
-                Spacer(minLength: 50) // Ajusta `minLength` según lo que necesites
-               
+
+                // Spacer to reduce the distance between the title and the buttons
+                Spacer(minLength: 50) // Adjust `minLength` as needed
+
                 VStack(spacing: 20) {
                     NavigationLink(destination: LoginView()) {
                         Text("Login")
@@ -27,16 +26,25 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    Button("Test")
-                    {
+
+                    Button("Test") {
                         Task {
                             let db = Firestore.firestore()
-                           // do {
-                            try await print(db.collection("Groups").document("GroupID_0").getDocument().data() ?? "no");
-//
+                            do {
+                                let document = try await db.collection("Groups").document("GroupID_0").getDocument()
+                                print(document.data() ?? "No data found")
+                            } catch {
+                                print("Error fetching document: \(error.localizedDescription)")
+                            }
                         }
                     }
-                   
+                    .font(.title2)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.orange)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+
                     NavigationLink(destination: RegisterView()) {
                         Text("Register")
                             .font(.title2)
@@ -48,8 +56,8 @@ struct ContentView: View {
                     }
                 }
                 .padding(.horizontal, 40)
-               
-                Spacer() // Este `Spacer` mantiene la parte inferior flexible, empujando hacia arriba si es necesario
+
+                Spacer() // Keeps the bottom flexible
             }
         }
     }
@@ -58,24 +66,26 @@ struct ContentView: View {
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var isNavigating = false
+    @State private var isNotNavigating = false
 
     var body: some View {
         VStack(spacing: 20) {
-                Text("Login")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding(.top)
+            Text("Login")
+                .font(.largeTitle)
+                .bold()
+                .padding(.top)
 
-            // Campo de texto para el correo electrónico
+            // Email input field
             VStack(alignment: .leading, spacing: 5) {
-                Text("Email")
+                Text("Username")
                     .font(.headline)
                 TextField("Enter your email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.emailAddress)
             }
 
-            // Campo de texto para la contraseña
+            // Password input field
             VStack(alignment: .leading, spacing: 5) {
                 Text("Password")
                     .font(.headline)
@@ -83,107 +93,141 @@ struct LoginView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
 
-            // Botón de login
-//                Button(action: {
-//                    // Acción al presionar el botón
-//                    print("Login button pressed")
-//                }) {
-            NavigationLink(destination: GroupView()) {
-                Text("Login")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(8)
+            // Login button
+            VStack
+            {
+                Button("Login") {
+                    Task {
+                        let db = Firestore.firestore()
+                        do {
+                            let document = try await db.collection("User").document(email).getDocument()
+                            if let DBPassword = document.data()?["Password"] as? String {
+                                print("Password from DB: \(DBPassword)")
+                                if(DBPassword == password)
+                                {
+                                    isNavigating = true
+                                } else
+                                {
+                                    isNavigating = false
+                                }
+                            } else {
+                                isNavigating = false
+                            }
+                        } catch {
+                            print("Error fetching user: \(error.localizedDescription)")
+                        }
+                        isNotNavigating = !isNavigating
+                    }
+                }
             }
-                //}
+            .alert("Authentication Failed...", isPresented: $isNotNavigating)
+            {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Authentication Failed...")
+            }
+
+            NavigationLink(destination: GroupView(), isActive: $isNavigating) {
+                EmptyView()
+            }
+            .hidden()
 
             Spacer()
         }
         .padding()
-        .navigationTitle("Login")
     }
 }
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-    }
-}
-
 
 struct RegisterView: View {
+    @State private var name: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var confirmPassword: String = ""
+    @State private var isNavigating = false
+    @State private var isRegistered = false
     
-   
-        @State private var name: String = ""
-        @State private var email: String = ""
-        @State private var password: String = ""
-        @State private var confirmPassword: String = ""
-
-        var body: some View {
-            VStack(spacing: 20) {
-                // Campo de texto para el nombre
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Name")
-                        .font(.headline)
-                    TextField("Enter your name", text: $name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-
-                // Campo de texto para el correo electrónico
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Email")
-                        .font(.headline)
-                    TextField("Enter your email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.emailAddress)
-                }
-
-                // Campo de texto para la contraseña
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Password")
-                        .font(.headline)
-                    SecureField("Enter your password", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-
-                // Campo de texto para confirmar la contraseña
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Password Confirmation")
-                        .font(.headline)
-                    SecureField("Confirm your password", text: $confirmPassword)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-
-                // Botón de registro
-                NavigationLink(destination: GroupView()) {
-//                    Button(action: {
-//                        // Acción al presionar el botón
-//                        print("Register button pressed")
-//                    }) {
-                        Text("Register")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(8)
-                    }
-                    .padding(.top, 20)
-                //}
+    var body: some View {
+        VStack(spacing: 20) {
+            // Name input field
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Name")
+                    .font(.headline)
+                TextField("Enter your name", text: $name)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            .padding()
+            
+            // Email input field
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Username")
+                    .font(.headline)
+                TextField("Enter your email", text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.emailAddress)
+            }
+            
+            // Password input field
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Password")
+                    .font(.headline)
+                SecureField("Enter your password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            
+            VStack
+            {
+                // Register button
+                Button("Register") {
+                    Task {
+                        let db = Firestore.firestore()
+                        do {
+                            let document = try await db.collection("User").document(email).getDocument()
+                            if let DBPassword = document.data()?["Password"] as? String {
+                                print("Password from DB: \(DBPassword)")
+                                isNavigating = true
+                            } else {
+                                isNavigating = false
+                            }
+                        } catch {
+                            print("Error fetching user: \(error.localizedDescription)")
+                        }
+                        
+                        if !isNavigating {
+                            do {
+                                try await db.collection("User").document(email).setData([
+                                    "Password": password
+                                ])
+                                isRegistered = false
+                            } catch {
+                                print("Error registering user: \(error.localizedDescription)")
+                            }
+                        } else {
+                            isRegistered = true
+                        }
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(isRegistered ? Color.green : Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+            }
+            .alert("Registration Failed...", isPresented: $isRegistered
+            )
+            {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Authentication Failed...")
+            }
+            
+            // Navigation to GroupView upon successful registration
+            NavigationLink(destination: GroupView(), isActive: $isRegistered) {
+                GroupView()
+            }
+            .hidden()
         }
+        .padding()
     }
-
-    struct RegisterView_Previews: PreviewProvider {
-        static var previews: some View {
-            RegisterView()
-        }
-    }
-    
-
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

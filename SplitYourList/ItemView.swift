@@ -8,9 +8,11 @@
 import SwiftUI
 struct ItemView: View {
     @State private var userInput = ""
+    @State private var username = ""
     @State var templateGroup: [String] = ["Template: Create List Below"]
     @State var items: [String] = []
     @State var showingInputField = false
+    @State var showingInputField2 = false
     
     var body: some View {
         NavigationView {
@@ -35,8 +37,12 @@ struct ItemView: View {
                     {
                         showingInputField.toggle()
                     }
-                        //Text("Add List")
-                            
+                    Button("Invite")
+                    {
+                        showingInputField2.toggle()
+                    }
+                    
+                    
                 }
                 
                 if showingInputField {
@@ -78,8 +84,47 @@ struct ItemView: View {
             }
             .navigationTitle("Lists")
             .navigationBarItems(leading: EditButton())
+        if showingInputField2 {
+            VStack {
+                Spacer()
+                VStack {
+                    Text("Invite User")
+                        .font(.headline)
+                        .padding()
+                    
+                    TextField("", text: $username)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    
+                    HStack {
+                        Button("Cancel") {
+                            cancel2()
+                        }
+                        .padding()
+                        
+                        Button("Invite")
+                        {
+                            
+                        }
+                        .padding()
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: 300)
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(radius: 10)
+                .padding(40)
+                .transition(.scale)
+                Spacer()
+            }
+            .background(Color.black.opacity(0.4))
+            .edgesIgnoringSafeArea(.all)
+            .zIndex(1)
         }
     }
+    .navigationTitle("Invatation")
+    .navigationBarItems(leading: EditButton())
+}
     
     func delete(indexSet: IndexSet) {
         items.remove(atOffsets: indexSet)
@@ -95,6 +140,16 @@ struct ItemView: View {
             userInput = ""
             showingInputField = false
         }
+    }
+    
+    func invite()
+    {
+        
+    }
+    
+    func cancel2() {
+        showingInputField = false
+        username = ""
     }
     
     func cancel() {

@@ -2,17 +2,14 @@ import SwiftUI
 struct GroupView: View {
     @State private var userInput = ""
     @State var templateGroup: [String] = ["Template: Create Group Below"]
-    @State var groups: [String] = ["Group1", "Group2", "Hola"]
+    @State var groups: [String] = []
     @State var showingInputField = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 VStack {
                     List {
-                        ForEach(templateGroup, id: \.self) { templategroup in
-                            Text(templategroup)
-                        }
                         ForEach(groups, id: \.self) { group in
                             NavigationLink(destination: ItemView())
                             {
@@ -69,6 +66,7 @@ struct GroupView: View {
             .navigationTitle("Groups")
             .navigationBarItems(leading: EditButton())
         }
+        
     }
     
     func delete(indexSet: IndexSet) {
