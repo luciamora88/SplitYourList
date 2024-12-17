@@ -42,6 +42,8 @@ The goal of this project is to create a roommate app that appropriately separate
 - Wireframes were hand-drawn, making them difficult to showcase clearly.
 - A database diagram was created using [dbdiagram.io](https://dbdiagram.io).
 
+  ![Database Diagram](./680DataBase.PNG)
+
 ### Features and Development Plan
 All proposed features were deemed **must-haves**. Each team member allocated approximately 10 hours for feature development and an additional 10 hours for debugging.
 
