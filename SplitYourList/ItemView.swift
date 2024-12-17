@@ -7,10 +7,12 @@
 
 import SwiftUI
 struct ItemView: View {
+    var GroupID: String
     @State private var userInput = ""
     @State private var username = ""
     @State var templateGroup: [String] = ["Template: Create List Below"]
     @State var items: [String] = []
+    @StateObject private var listViewModel = ListViewModel()
     @State var showingInputField = false
     @State var showingInputField2 = false
     
@@ -19,15 +21,19 @@ struct ItemView: View {
             ZStack {
                 VStack {
                     List {
-                        ForEach(templateGroup, id: \.self) { templategroup in
-                            Text(templategroup)
-                        }
-                        ForEach(items, id: \.self) { item in
+                        ForEach(listViewModel.lists, id: \.self) { templategroup in
                             NavigationLink(destination: ShoppingListView())
                             {
-                                Text(item)
+                                Text(templategroup.name)
                             }
                         }
+                        
+//                        ForEach(items, id: \.self) { item in
+//                            NavigationLink(destination: ShoppingListView())
+//                            {
+//                                Text(item)
+//                            }
+//                        }
                         .onDelete(perform: delete)
                         .onMove(perform: move)
                     }
@@ -158,6 +164,6 @@ struct ItemView: View {
 }
 
 #Preview {
-    ItemView()
+    ItemView(GroupID : "")
 }
 

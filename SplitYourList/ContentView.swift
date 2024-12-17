@@ -127,7 +127,7 @@ struct LoginView: View {
                 Text("Authentication Failed...")
             }
 
-            NavigationLink(destination: GroupView(), isActive: $isNavigating) {
+            NavigationLink(destination: GroupView(Username: email), isActive: $isNavigating) {
                 EmptyView()
             }
             .hidden()
@@ -195,10 +195,13 @@ struct RegisterView: View {
                         
                         if !isNavigating {
                             do {
-                                try await db.collection("User").document(email).setData([
-                                    "Password": password,
-                                    "Groups": []
+                                let document = db.collection("User").document(email)
+                                try await document.setData([
+                                    "Password": password
                                 ])
+                                
+                                document.collection("Groups").document()
+                                
                                 isRegistered = false
                             } catch {
                                 print("Error registering user: \(error.localizedDescription)")
@@ -219,7 +222,7 @@ struct RegisterView: View {
                 Text("Authentication Failed...")
             }
             
-            NavigationLink(destination: GroupView(), isActive: $isNotRegistered) {
+            NavigationLink(destination: GroupView(Username: email), isActive: $isNotRegistered) {
                 EmptyView()
             }
             .hidden()
@@ -233,3 +236,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+

@@ -3,12 +3,12 @@ import FirebaseFirestore
 
 struct ListView: View {
     // Input for the new group's title
-    @State var groupName: String
     @State private var participants: [String] = ["Own Username", "Friends Username"]  // Initial participants
-    @Binding var groups: [String]  // Binding to the `groups` array in GroupView
     @Environment(\.dismiss) var dismiss  // Dismiss environment to close the view
     
     @State var title: String = ""  // Group title input field
+    
+//    Struct Group
     
     var body: some View {
         VStack(spacing: 20) {
@@ -64,18 +64,20 @@ struct ListView: View {
                     // Append the new group to Firestore for each participant
                     Task {
                         let db = Firestore.firestore()
-                        
-                        // Loop through the participants and update the "Groups" field
-                        for participant in participants {
-                            let document = db.collection("User").document(participant) // Assuming "Users" collection
-                            
-                            document.updateData([
-                                "Groups": FieldValue.arrayUnion([title])
-                            ]) { error in
-                                if let error = error {
-                                    print("Error updating document: \(error.localizedDescription)")
-                                } else {
-                                    print("Document successfully updated for participant \(participant).")
+                        do
+                        {
+                            let GroupID = try await db.collection("Groups").addDocument(data: ["ListID":""]).documentID
+                            // Loop through the participants and update the "Groups" field
+                            for participant in participants {
+                                let document = db.collection("User").document(participant) // Assuming "Users" collection
+                                do
+                                {
+                                    try await document.collection("Groups").addDocument(data:[
+                                        "Name"  :   title,
+                                        "ID"    :   GroupID
+                                    ])
+                                } catch {
+                                    print("Failed...")
                                 }
                             }
                         }
@@ -99,8 +101,4 @@ struct ListView: View {
         .padding()
         .navigationBarBackButtonHidden(false)
     }
-}
-
-#Preview {
-    ListView(groupName: "", groups: .constant([]))
 }
