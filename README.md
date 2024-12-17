@@ -24,7 +24,7 @@ The goal of this project is to create a roommate app that appropriately separate
 
 2. **Access to Macs:**
    - Most team members do not own Macs, and library Macs were not functional.
-   - **Solution:** The Maker Space provided Macs with Xcode access via a special password.
+   - **Solution:** The Maker Space provided Macs with Xcode access via a special password. As long as we claimed we were from a different engineering class.
 
 ### Proposal Features
 - Login and authentication
@@ -59,7 +59,7 @@ All proposed features were deemed **must-haves**. Each team member allocated app
 | UI design for remaining pages                       | 20    | Barbara Hernandez, Lucia Mora  |
 
 ### Additional Features
-- **Optional:** Integrate Apple’s camera receipt reader to speed up list creation.
+- **Added Optional:** Integrate Apple’s camera receipt reader to speed up list creation. If there is time.
 
 ---
 
@@ -70,6 +70,7 @@ All must-have features have been implemented.
 ### Issues Encountered
 1. **Mac Availability:** Finding available computers in the Maker Space was challenging.
 2. **Database Choice:** Originally used PostgreSQL, but switched to Firebase for better compatibility with SwiftUI and availability of tutorials.
+3. ** UI And Database** Trying to maintain the design of the UI posed difficulties when trying to integrate the listeners and database.
 
 ### Recap and Learning
 This experience enhanced our understanding of app development using SwiftUI and Firebase. We learned to utilize modern iOS 16 features effectively and avoid deprecated practices.
@@ -79,7 +80,7 @@ To test the app, please contact **Zachary Howe**:
 - **Email:** [Zacharyh777@gmail.com](mailto:Zacharyh777@gmail.com)
 - **ID:** 923229694
 
-> **Note:** The database must be manually activated due to cost constraints. Please reach out before testing.
+> **Note:** The database must be manually activated due to cost constraints. Please reach out before testing. Sorry for the incovinience.
 
 ---
 
