@@ -4,6 +4,7 @@ struct GroupView: View {
     @State var templateGroup: [String] = ["Template: Create Group Below"]
     @State var groups: [String] = []
     @State var showingInputField = false
+    @Environment(\.editMode) var editMode
     
     var body: some View {
         NavigationStack {
@@ -19,7 +20,7 @@ struct GroupView: View {
                         .onDelete(perform: delete)
                         .onMove(perform: move)
                     }
-
+                    .environment(\.editMode, editMode)
                     NavigationLink(destination: ListView(groupName: "", groups: $groups)) {
                         Text("Add Group")
                     }
@@ -64,7 +65,11 @@ struct GroupView: View {
                 }
             }
             .navigationTitle("Groups")
-            .navigationBarItems(leading: EditButton())
+            .toolbar {
+                EditButton()
+            }
+            Spacer()
+            /*.navigationBarItems(leading: EditButton())*/
         }
         
     }
@@ -76,6 +81,13 @@ struct GroupView: View {
     func move(indices: IndexSet, newOffset: Int) {
         groups.move(fromOffsets: indices, toOffset: newOffset)
     }
+    
+    func Listen()
+    {
+        
+    }
+    
+    
     
     func add() {
         if !userInput.isEmpty {

@@ -22,7 +22,7 @@ struct ShoppingListView: View {
     @State private var uniqueCode: String = ""
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     ForEach(items.indices, id: \.self) { index in

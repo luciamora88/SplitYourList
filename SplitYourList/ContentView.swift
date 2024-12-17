@@ -3,7 +3,7 @@ import FirebaseFirestore
 
 struct ContentView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 HStack {
                     Text("SplitYourList")
@@ -145,6 +145,8 @@ struct RegisterView: View {
     @State private var confirmPassword: String = ""
     @State private var isNavigating = false
     @State private var isRegistered = false
+    @State private var isNotRegistered = false
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -194,7 +196,8 @@ struct RegisterView: View {
                         if !isNavigating {
                             do {
                                 try await db.collection("User").document(email).setData([
-                                    "Password": password
+                                    "Password": password,
+                                    "Groups": []
                                 ])
                                 isRegistered = false
                             } catch {
@@ -203,13 +206,10 @@ struct RegisterView: View {
                         } else {
                             isRegistered = true
                         }
+                        
+                        isNotRegistered = !isRegistered;
                     }
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(isRegistered ? Color.green : Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
             }
             .alert("Registration Failed...", isPresented: $isRegistered
             )
@@ -219,9 +219,8 @@ struct RegisterView: View {
                 Text("Authentication Failed...")
             }
             
-            // Navigation to GroupView upon successful registration
-            NavigationLink(destination: GroupView(), isActive: $isRegistered) {
-                GroupView()
+            NavigationLink(destination: GroupView(), isActive: $isNotRegistered) {
+                EmptyView()
             }
             .hidden()
         }

@@ -122,8 +122,7 @@ struct ItemView: View {
             .zIndex(1)
         }
     }
-    .navigationTitle("Invatation")
-    .navigationBarItems(leading: EditButton())
+    //.navigationBarItems(leading: EditButton())
 }
     
     func delete(indexSet: IndexSet) {
