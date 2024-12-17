@@ -1,4 +1,4 @@
-Zachary Howe, Rathang Pandit
+Zachary Howe, Rathang Pandit,
 Lucia Mora, Barbara Hernandez
 
 Table Of Contents:
