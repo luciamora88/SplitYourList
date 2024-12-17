@@ -1,4 +1,4 @@
-# Roommate App Project
+# SplitYourList - The Roomate App Project
 
 ## Authors
 - Zachary Howe
